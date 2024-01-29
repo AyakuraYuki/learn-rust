@@ -1,0 +1,8 @@
+[package]
+name = "array-vec"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "array-vec"
+path = "src/main.rs"

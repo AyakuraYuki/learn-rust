@@ -1,0 +1,11 @@
+[package]
+name = "slice-string"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "slice-string"
+path = "src/main.rs"
+
+[dependencies]
+utf8_slice = "1.0.0"

@@ -1,0 +1,8 @@
+[package]
+name = "flow-control"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "flow-control"
+path = "src/main.rs"
