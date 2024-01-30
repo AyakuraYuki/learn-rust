@@ -77,6 +77,11 @@ pub enum PokerCard {
     Hearts(char),
 }
 
+#[derive(Debug)]
+enum Message {
+    Greeting { id: i32 }
+}
+
 fn example_match() {
     let direction = Direction::North;
     let step = match direction {
@@ -114,6 +119,23 @@ fn example_match() {
     match card {
         PokerCard::Hearts(v) => { println!("Hearts_{}", v); }
         other => { println!("other cards: {:?}", other); }
+    }
+
+    // 模式匹配可以使用 @ 绑定到一个新的变量，允许在这个分支里使用绑定的变量
+    let msg = Message::Greeting { id: 5 };
+    match msg {
+        Message::Greeting { id: id_message @ 3..=7 } => {
+            // 这里解构了 msg，并且把 id 绑定给 id_message 以供分支内使用
+            println!("发现一个落在 [3, 7] 内的数值: {}", id_message);
+        }
+        Message::Greeting { id: 10..=12 } => {
+            // 可以看到这里不能使用 id
+            println!("发现一个落在 [10, 12] 内的数值");
+        }
+        Message::Greeting { id } => {
+            // 没有条件的解构，则可以在分支里使用 id（又或者其他的名称）
+            println!("发现一个落在其他地方的数值: {}", id);
+        }
     }
 }
 
