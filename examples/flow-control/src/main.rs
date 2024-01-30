@@ -3,6 +3,8 @@ fn main() {
     println!();
     example_loop_structs();
     println!();
+    example_loop_with_index();
+    println!();
 }
 
 fn example_basic_for_iter() {
@@ -31,6 +33,13 @@ fn example_loop_structs() {
         foo.name = format!("new_{}", foo.name);
     }
     println!("{:?}", array);
+}
+
+fn example_loop_with_index() {
+    let numbers: [i32; 10] = std::array::from_fn(|i| (i + 1) as i32);
+    for (index, value) in numbers.iter().enumerate() {
+        println!("第 {} 个数字是 {}", index, value);
+    }
 }
 
 #[derive(Debug)]
