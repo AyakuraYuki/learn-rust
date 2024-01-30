@@ -1,5 +1,6 @@
 [workspace]
 members = [
+    # "model",
     "examples/*"
 ]
 resolver = "2"
