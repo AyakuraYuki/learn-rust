@@ -1,0 +1,11 @@
+[package]
+name = "traits"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "traits"
+path = "src/main.rs"
+
+[dependencies]
+utf8_slice = "1.0.0"
