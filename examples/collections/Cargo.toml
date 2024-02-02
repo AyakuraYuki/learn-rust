@@ -1,0 +1,11 @@
+[package]
+name = "collections"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "collections"
+path = "src/main.rs"
+
+[dependencies]
+ahash = "0.8.7"

@@ -181,9 +181,73 @@ impl Add for Point {
     }
 }
 
+// --------------------------------------------------------------------------------
+
+// Summary: 一个解构实现了多个特性，并且这些实现都有同名同参的方法
+
+trait Pilot {
+    fn fly(&self);
+}
+
+trait Wizard {
+    fn fly(&self);
+}
+
+struct Human;
+
+impl Pilot for Human {
+    fn fly(&self) {
+        println!("飞行中");
+    }
+}
+
+impl Wizard for Human {
+    fn fly(&self) {
+        println!("起！");
+    }
+}
+
+impl Human {
+    fn fly(&self) {
+        println!("摆摆手臂，起飞");
+    }
+}
+
+// --------------------------------------------------------------------------------
+
+// Summary: 同名关联函数的调用
+// 这里引入【完全限定语法】的概念，完全限定语法的定义是：
+//
+//     <Type as Trait>::function(receiver_if_method, args...)
+//
+// 这个定义可以囊括关联函数的方法，取决于定义有没有包含 receiver_if_method
+// receiver_if_method 则是三种 self，即 self、&self 和 &mut self
+//
+// 完全限定语法一般不会用到，只有在 rust 不能自动推导出我们的代码意图时才需要限定，典型的例子就是【方法名称重复】
+
+trait Animal {
+    fn shout() -> String;
+}
+
+struct Dog;
+
+impl Dog {
+    fn shout() -> String {
+        String::from("bark")
+    }
+}
+
+impl Animal for Dog {
+    fn shout() -> String {
+        String::from("dog is barking")
+    }
+}
+
+// --------------------------------------------------------------------------------
+
 #[cfg(test)]
 mod test {
-    use crate::traits::Point;
+    use crate::traits::{Animal, Dog, Human, Pilot, Point, Wizard};
 
     #[test]
     fn test_add_two_points() {
@@ -193,5 +257,20 @@ mod test {
         dbg!(point_a);
         dbg!(point_b);
         dbg!(point_merged);
+    }
+
+    #[test]
+    fn test_fly() {
+        // 调用位于不同实现的同名方法
+        let person = Human;
+        person.fly();
+        Pilot::fly(&person);
+        Wizard::fly(&person);
+    }
+
+    #[test]
+    fn test_shout() {
+        println!("shout: {}", Dog::shout());
+        println!("shout: {}", <Dog as Animal>::shout())
     }
 }
