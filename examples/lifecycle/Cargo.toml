@@ -1,0 +1,8 @@
+[package]
+name = "lifecycle"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "lifecycle"
+path = "src/main.rs"
