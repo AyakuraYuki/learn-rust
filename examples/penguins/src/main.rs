@@ -11,6 +11,7 @@ fn main() {
 
     for (i, record) in records.enumerate() {
         if i == 0 || record.trim().len() == 0 {
+            // 跳过第一行表头，或者空行
             continue;
         }
 

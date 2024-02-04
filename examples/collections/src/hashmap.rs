@@ -4,7 +4,6 @@
 #[cfg(test)]
 mod test {
     use std::collections::HashMap;
-    use std::hash::Hash;
 
     use ahash::{AHashMap, RandomState};
 

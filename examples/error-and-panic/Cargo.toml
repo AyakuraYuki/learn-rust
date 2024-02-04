@@ -1,0 +1,11 @@
+[package]
+name = "error-and-panic"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "error-and-panic"
+path = "src/main.rs"
+
+[dependencies]
+homedir = "0.2.1"

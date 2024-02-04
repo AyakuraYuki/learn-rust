@@ -1,0 +1,8 @@
+[package]
+name = "mingrep"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "mingrep"
+path = "src/main.rs"

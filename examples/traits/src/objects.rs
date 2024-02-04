@@ -155,7 +155,7 @@ impl Screen {
 
 #[cfg(test)]
 mod tests {
-    use crate::objects::{Button, Draw, draw, Screen, SelectBox};
+    use crate::objects::{Button, draw, Screen, SelectBox};
 
     #[test]
     fn test_draw() {

@@ -1,5 +1,3 @@
-use std::fmt::{Debug, Display};
-
 use crate::traits::{Post, Summary, Weibo};
 
 // 特性的范例代码
