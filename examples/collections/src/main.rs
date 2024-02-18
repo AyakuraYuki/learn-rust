@@ -58,7 +58,7 @@ mod test {
         }
     }
 
-    // 存储同一个特性的不同实现的对象
+    // 存储同一个特征的不同实现的对象
     #[test]
     fn store_different_objects_with_same_trait() {
         let v: Vec<Box<dyn IPAddress>> = vec![

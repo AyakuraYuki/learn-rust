@@ -1,5 +1,5 @@
 // keynote
-// 1. HashMap 使用了哈希来保证尽可能少的键值冲突，一个简单的理解是，可以看作为 Key 的数据类型是否实现了 std::cmp::Eq 特性
+// 1. HashMap 使用了哈希来保证尽可能少的键值冲突，一个简单的理解是，可以看作为 Key 的数据类型是否实现了 std::cmp::Eq 特征
 
 #[cfg(test)]
 mod test {

@@ -1,4 +1,4 @@
-// 声明一个 UI 组件的特性：绘制 UI 组件
+// 声明一个 UI 组件的特征：绘制 UI 组件
 pub trait Draw {
     fn draw(&self);
 }
@@ -123,8 +123,8 @@ fn draw(x: &dyn Draw) {
 // --------------------------------------------------------------------------------
 
 pub struct Screen {
-    // dyn，可以理解成 dynamic，它代表【动态特性】
-    // 与之相对的，impl trait 代表的是【静态特性】
+    // dyn，可以理解成 dynamic，它代表【动态特征】
+    // 与之相对的，impl trait 代表的是【静态特征】
     components: Vec<Box<dyn Draw>>,
 }
 
@@ -166,9 +166,9 @@ mod tests {
     #[test]
     fn test_screen() {
         let mut screen = Screen::new(vec![]);
-        // 在这行，Button 都只是特性 Draw 的一个实例，不再代表具体类型
+        // 在这行，Button 都只是特征 Draw 的一个实例，不再代表具体类型
         screen.add_component(Box::new(Button::new(8, 5, "hello".to_string())));
-        // 在这行，SelectBox 都只是特性 Draw 的一个实例，不再代表具体类型
+        // 在这行，SelectBox 都只是特征 Draw 的一个实例，不再代表具体类型
         screen.add_component(Box::new(SelectBox::new(120, 64, vec!["hello, world".to_string()])));
         screen.run();
     }

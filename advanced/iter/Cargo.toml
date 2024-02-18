@@ -1,0 +1,8 @@
+[package]
+name = "iter"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "iter"
+path = "src/main.rs"

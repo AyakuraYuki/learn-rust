@@ -41,7 +41,7 @@ fn file_readline_another_implement<P: AsRef<Path>>(path: P) -> Result<String, Bo
     Ok(s)
 }
 
-// 掌握了上面说的特性，可以用链式调用来完成读取文件的行为
+// 掌握了上面说的特征，可以用链式调用来完成读取文件的行为
 fn file_readline_inline<P: AsRef<Path>>(path: P) -> Result<String, Box<dyn std::error::Error>> {
     let mut s = String::new();
     File::open(path)?.read_to_string(&mut s)?;

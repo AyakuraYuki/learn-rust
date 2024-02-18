@@ -269,6 +269,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "iter"
+version = "0.1.0"
+
+[[package]]
 name = "js-sys"
 version = "0.3.67"
 source = "registry+https://github.com/rust-lang/crates.io-index"

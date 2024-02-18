@@ -1,5 +1,5 @@
 // add 声明为接收两个同类型的参数，计算他们的算数和
-// 类型允许是支持 Add 特性的
+// 类型允许是支持 Add 特征的
 #[allow(unused)]
 fn add<T: std::ops::Add<Output=T>>(a: T, b: T) -> T {
     a + b

@@ -1,7 +1,7 @@
 use std::fmt::{Debug, Display};
 use std::ops::Add;
 
-// Summary 定义了一个特性，他有一个方法 summaries()
+// Summary 定义了一个特征，他有一个方法 summaries()
 pub trait Summary {
     // 这是一个默认实现，类似于 Java 里接口的 default 方法
     fn summaries(&self) -> String {
@@ -118,7 +118,7 @@ impl Summary for Tweet {}
 
 // --------------------------------------------------------------------------------
 
-// notify 接受任何实现了 Summary 特性的实例，其中的关键词是 &impl
+// notify 接受任何实现了 Summary 特征的实例，其中的关键词是 &impl
 #[allow(unused)]
 fn notify(item: &impl Summary) {
     println!("Breaking news! {}", item.summaries());
@@ -131,7 +131,7 @@ fn notify_post<T: Summary>(item: &T) {
     println!("Breaking news! {}", item.summaries());
 }
 
-// 对于下面这种写法，参数可以接收不同几种实现了同一个特性的实例
+// 对于下面这种写法，参数可以接收不同几种实现了同一个特征的实例
 #[allow(unused)]
 fn notify_posts(a: &impl Summary, b: &impl Summary) {}
 
@@ -140,7 +140,7 @@ fn notify_posts(a: &impl Summary, b: &impl Summary) {}
 #[allow(unused)]
 fn notify_plat_post<T: Summary>(a: &T, b: &T) {}
 
-// 多重约束也有两种写法，下面展示的两个方法，他们的参数都需要实现 Summary 和 Debug 两个特性
+// 多重约束也有两种写法，下面展示的两个方法，他们的参数都需要实现 Summary 和 Debug 两个特征
 #[allow(unused)]
 fn notify_traits(item: &(impl Summary + Debug)) {}
 
@@ -170,7 +170,7 @@ struct Point {
 }
 
 // 实现运算符重载，让 Point 支持加法运算
-// 只有 std::ops 里的特性可以进行重载
+// 只有 std::ops 里的特征可以进行重载
 impl Add for Point {
     type Output = Self;
     fn add(self, other: Self) -> Self {
@@ -183,7 +183,7 @@ impl Add for Point {
 
 // --------------------------------------------------------------------------------
 
-// Summary: 一个解构实现了多个特性，并且这些实现都有同名同参的方法
+// Summary: 一个解构实现了多个特征，并且这些实现都有同名同参的方法
 
 trait Pilot {
     fn fly(&self);
