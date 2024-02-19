@@ -5,7 +5,7 @@ fn main() {
 }
 
 // fn dangle() -> &String { // dangle 返回了一个对 String 的引用
-//     let s = String::from("dangling string"); // 在这里创建了新的 String
+//     let s = String::from("chap-2-3-2-dangling string"); // 在这里创建了新的 String
 //     &s // 返回 s 的引用
 // } // 在这里，s 离开了作用域，所以内存被释放了，则返回一个对 s 的引用会变成一个危险操作
 

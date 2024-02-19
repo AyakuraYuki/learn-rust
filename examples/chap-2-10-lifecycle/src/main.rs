@@ -30,7 +30,7 @@ mod test {
     //
     // 不信？把 println!() 往外放一下试试，会收到下面的编译失败的信息：
     // error[E0597]: `inside_string` does not live long enough
-    //   --> examples/lifecycle/src/main.rs:37:55
+    //   --> examples/chap-2-10-lifecycle/src/main.rs:37:55
     //    |
     // 36 |             let inside_string = String::from("inside the inner code block");
     //    |                 ------------- binding `inside_string` declared here
