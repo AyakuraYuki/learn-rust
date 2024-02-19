@@ -1,0 +1,8 @@
+[package]
+name = "type-convert"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "type-convert"
+path = "src/main.rs"
