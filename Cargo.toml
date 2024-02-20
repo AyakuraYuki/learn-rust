@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "bitwise",
+    "mingrep",
     "examples/*"
 ]
 resolver = "2"
