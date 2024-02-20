@@ -110,6 +110,10 @@ name = "dangling"
 version = "0.1.0"
 
 [[package]]
+name = "deep-into-enum-and-number"
+version = "0.1.0"
+
+[[package]]
 name = "enums"
 version = "0.1.0"
 
