@@ -65,6 +65,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ea184aa71bb362a1157c896979544cc23974e08fd265f29ea96b59f0b4a555b"
 
 [[package]]
+name = "call-and-refcall"
+version = "0.1.0"
+
+[[package]]
 name = "cc"
 version = "1.0.88"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -116,6 +120,10 @@ version = "0.1.0"
 
 [[package]]
 name = "deref"
+version = "0.1.0"
+
+[[package]]
+name = "drop"
 version = "0.1.0"
 
 [[package]]

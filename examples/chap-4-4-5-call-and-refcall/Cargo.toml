@@ -1,0 +1,8 @@
+[package]
+name = "call-and-refcall"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "call-and-refcall"
+path = "src/main.rs"
