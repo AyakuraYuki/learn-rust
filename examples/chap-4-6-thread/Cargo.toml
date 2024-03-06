@@ -1,8 +1,11 @@
 [package]
-name = "call-and-refcall"
+name = "thread"
 version = "0.1.0"
 edition = "2021"
 
 [[bin]]
-name = "call-and-refcall"
+name = "thread"
 path = "src/main.rs"
+
+[dependencies]
+num_cpus = "1.16.0"

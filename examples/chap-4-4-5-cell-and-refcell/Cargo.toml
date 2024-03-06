@@ -1,0 +1,8 @@
+[package]
+name = "cell-and-refcell"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "cell-and-refcell"
+path = "src/main.rs"
