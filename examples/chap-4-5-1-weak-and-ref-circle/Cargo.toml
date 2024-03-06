@@ -1,0 +1,8 @@
+[package]
+name = "weak-and-ref-circle"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "weak-and-ref-circle"
+path = "src/main.rs"
