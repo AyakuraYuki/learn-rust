@@ -42,7 +42,7 @@ impl From<io::Error> for AppError {
 }
 
 fn produce_error() -> Result<(), AppError> {
-    Err(AppError::new(404, "produced error"))
+    Err(AppError::new(500, "produced error"))
 }
 
 fn main() -> Result<(), AppError> {

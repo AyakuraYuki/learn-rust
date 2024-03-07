@@ -1,0 +1,8 @@
+[package]
+name = "unsafed"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "unsafed"
+path = "src/main.rs"
