@@ -26,6 +26,8 @@ fn main() {
 
 #[cfg(test)]
 mod test {
+    use std::arch::asm;
+
     #[test]
     fn raw_pointer() {
         let mut num = 5;
@@ -42,5 +44,15 @@ mod test {
             println!("ptr is {}", *ptr);
         }
         println!("num is {}", num);
+    }
+
+    #[test]
+    fn asm() {
+        let x: u64;
+        unsafe {
+            asm!("nop");
+            asm!("mov {}, 5", out(reg) x); // 把 5 赋给 x
+        }
+        println!("x is {}", x);
     }
 }
