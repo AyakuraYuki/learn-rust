@@ -1,0 +1,8 @@
+[package]
+name = "handle-error"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "handle-error"
+path = "src/main.rs"
