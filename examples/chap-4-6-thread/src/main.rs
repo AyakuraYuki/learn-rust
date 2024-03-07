@@ -15,6 +15,18 @@ fn add_n_times(n: u64) -> JoinHandle<()> {
     })
 }
 
+#[derive(Debug)]
+struct MyBoxU8(*mut u8);
+
+// 实现 Send 的类型可以在线程间安全的传递其所有权
+unsafe impl Send for MyBoxU8 {}
+
+#[derive(Debug)]
+struct MyBoxConstU8(*const u8);
+
+// 实现 Sync 的类型可以在线程间安全的共享（通过引用）
+unsafe impl Sync for MyBoxConstU8 {}
+
 fn main() {}
 
 #[cfg(test)]
@@ -25,7 +37,7 @@ mod test {
     use std::thread;
     use std::time::{Duration, Instant};
 
-    use crate::{add_n_times, N_THREADS, N_TIMES, R};
+    use crate::{add_n_times, MyBoxConstU8, MyBoxU8, N_THREADS, N_TIMES, R};
 
     #[test]
     fn join() {
@@ -159,5 +171,26 @@ mod test {
         }
         assert_eq!(N_TIMES * N_THREADS as u64, R.load(Ordering::Relaxed));
         println!("{:?}", Instant::now().sub(s));
+    }
+
+    #[test]
+    fn send_ptr() {
+        // MyBoxU8 为裸指针实现 Send
+        let p = MyBoxU8(5 as *mut u8);
+        let t = thread::spawn(move || {
+            println!("{:?}", p);
+        });
+        t.join().unwrap();
+    }
+
+    #[test]
+    fn sync_ptr() {
+        // MyBoxConstU8 为裸指针实现了 Sync
+        let b = &MyBoxConstU8(5 as *const u8);
+        let v = Arc::new(Mutex::new(b));
+        let t = thread::spawn(move || {
+            let _v = v.lock().unwrap();
+        });
+        t.join().unwrap();
     }
 }
