@@ -250,6 +250,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "global-var"
+version = "0.1.0"
+
+[[package]]
 name = "guess-number"
 version = "0.1.0"
 dependencies = [
