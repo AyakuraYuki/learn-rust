@@ -1,16 +1,46 @@
-fn main() {
-    let mut num = 5;
-    let ptr = &num as *const i32;
-    // Dereferencing a raw pointer is only allowed inside an `unsafe` block or function
-    // -> https://doc.rust-lang.org/error_codes/E0133.html
-    unsafe {
-        println!("ptr is {}", *ptr);
-    }
-    println!("num is {}", num);
+use std::slice::from_raw_parts;
+use std::str::from_utf8_unchecked;
 
-    num = 6;
+fn get_memory_location() -> (*const u8, usize) {
+    let string = "hello, world";
+    let pointer = string.as_ptr();
+    let length = string.len();
+    (pointer, length)
+}
+
+fn get_string_at_location(pointer: *const u8, length: usize) -> &'static str {
     unsafe {
-        println!("ptr is {}", *ptr);
+        from_utf8_unchecked(from_raw_parts(pointer, length))
     }
-    println!("num is {}", num);
+}
+
+fn main() {
+    let (pointer, length) = get_memory_location();
+    let message = get_string_at_location(pointer, length);
+    println!("the {} bytes at {:?} stored [{}]", length, pointer, message);
+
+    // 访问非法地址 -> Process finished with exit code 139 (interrupted by signal 11:SIGSEGV)
+    // let message = get_string_at_location(127 as *const u8, 10);
+    // println!("invalid access: {}", message);
+}
+
+#[cfg(test)]
+mod test {
+    #[test]
+    fn raw_pointer() {
+        let mut num = 5;
+        let ptr = &num as *const i32;
+        // Dereferencing a raw pointer is only allowed inside an `unsafe` block or function
+        // -> https://doc.rust-lang.org/error_codes/E0133.html
+        unsafe {
+            println!("ptr is {}", *ptr);
+        }
+        println!("num is {}", num);
+
+        num = 6;
+        unsafe {
+            println!("ptr is {}", *ptr);
+        }
+        println!("num is {}", num);
+    }
 }
