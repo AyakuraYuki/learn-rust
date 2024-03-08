@@ -1,0 +1,8 @@
+[package]
+name = "async-await"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+futures = "0.3.30"
+timer-future = {path = "../../timer-future"}

@@ -3,5 +3,5 @@ members = [
     "bitwise",
     "mingrep",
     "examples/*"
-]
+, "timer-future"]
 resolver = "2"
