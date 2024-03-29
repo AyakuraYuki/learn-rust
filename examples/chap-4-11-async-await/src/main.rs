@@ -300,4 +300,21 @@ mod test {
         }
         assert_eq!(total, 10);
     }
+
+    #[test]
+    fn tell_async_ret_type() {
+        async fn foo() -> Result<u8, String> {
+            Ok(1)
+        }
+
+        async fn bar() -> Result<u8, String> {
+            Ok(1)
+        }
+
+        let _fut = async {
+            foo().await?;
+            bar().await?;
+            Ok::<(), String>(())
+        };
+    }
 }
