@@ -4,6 +4,7 @@ use std::pin::Pin;
 
 use futures::{FutureExt, join, pin_mut, select, Stream, StreamExt, try_join, TryFutureExt, TryStreamExt};
 use futures::executor::block_on;
+use futures::stream::FusedStream;
 
 async fn do_something() {
     // .await 等待另一个 async 方法执行完成
@@ -226,6 +227,24 @@ async fn race_tasks() {
 
     // 在测试用例 select_default_complete 展示了搭配 loop 的写法，这种写法可以监控到所有的 future 并且作出
     // 相应地分支处理。
+}
+
+async fn add_two_streams(
+    mut s1: impl Stream<Item=u8> + FusedStream + Unpin,
+    mut s2: impl Stream<Item=u8> + FusedStream + Unpin,
+) -> u8 {
+    let mut total = 0;
+    loop {
+        let item = select! {
+            x = s1.next() => x,
+            x = s2.next() => x,
+            complete => break,
+        };
+        if let Some(next_num) = item {
+            total += next_num
+        }
+    }
+    total
 }
 
 // --------------------------------------------------------------------------------
