@@ -2,7 +2,7 @@ use std::future::Future;
 use std::io;
 use std::pin::Pin;
 
-use futures::{join, Stream, StreamExt, TryStreamExt};
+use futures::{FutureExt, join, pin_mut, select, Stream, StreamExt, try_join, TryFutureExt, TryStreamExt};
 use futures::executor::block_on;
 
 async fn do_something() {
@@ -177,6 +177,57 @@ async fn enjoy_book_and_music() -> (Book, Music) {
     // 如果有一个数组，数组里全是异步任务，可以用 futures::future::join_all 方法同时运行
 }
 
+async fn get_book() -> Result<Book, String> { Ok(Book) }
+
+async fn another_get_book() -> Result<Book, ()> { Ok(Book) }
+
+async fn get_music() -> Result<Music, String> { Ok(Music) }
+
+async fn try_get_book_and_music() -> Result<(Book, Music), String> {
+    let book_fut = get_book();
+    let music_fut = get_music();
+    // try_join!() 会在任意 future 失败后停止所有 future 的执行
+    try_join!(book_fut, music_fut)
+}
+
+async fn try_another_get_book_and_music() -> Result<(Book, Music), String> {
+    // try_join!() 接受的 future 必须都拥有相同的错误类型，如果存在不同的错误类型，
+    // 可以考虑使用 futures::future::TryFutureExt 提供的 map_err 和 err_info 转换
+    let book_fut = another_get_book().map_err(|()| "unable to get book".to_string());
+    let music_fut = get_music();
+    try_join!(book_fut, music_fut)
+}
+
+// --------------------------------------------------------------------------------
+
+// select! {}
+
+async fn task_one() {}
+
+async fn task_two() {}
+
+async fn race_tasks() {
+    // .fuse() 让 future 实现了 FusedFuture 特征
+    let t1 = task_one().fuse();
+    let t2 = task_two().fuse();
+    // pin_mut!() 会为 future 实现 Unpin 特征
+    pin_mut!(t1, t2);
+    // select! 需要 future 实现 FusedFuture 和 Unpin
+    // Unpin 是因为 select 不会通过拿走所有权的方式去使用 future，保证 future 的所有权还可以被其他代码使用，
+    // 有点类似于观察者的思路；
+    // FusedFuture 意味着熔断，一旦 future 完成后，select 就不能对其再次轮询使用，相当于一旦 future 完成，
+    // 调用 poll 会返回 Poll::Pending。
+    //
+    // 下面展示了一次性 select 的写法，不论 t1 和 t2 谁先完成，都会输出 t1 分支的结果，并且结束 select。
+    select! {
+        () = t1 => println!("task 1 complete"),
+        () = t2 => println!("task 2 complete"),
+    }
+
+    // 在测试用例 select_default_complete 展示了搭配 loop 的写法，这种写法可以监控到所有的 future 并且作出
+    // 相应地分支处理。
+}
+
 // --------------------------------------------------------------------------------
 
 fn main() {
@@ -192,9 +243,10 @@ fn main() {
 
 #[cfg(test)]
 mod test {
+    use futures::{future, select};
     use futures::executor::block_on;
 
-    use crate::foo;
+    use crate::{foo, race_tasks};
 
     #[test]
     fn async_block() {
@@ -207,5 +259,26 @@ mod test {
         };
         block_on(f1);
         block_on(f2);
+    }
+
+    #[test]
+    fn test_race_tasks() {
+        block_on(race_tasks());
+    }
+
+    #[test]
+    fn select_default_complete() {
+        let mut a_fut = future::ready(4);
+        let mut b_fut = future::ready(6);
+        let mut total = 0;
+        loop {
+            select! {
+                a = a_fut => total += a,
+                b = b_fut => total += b,
+                complete => break, // 所有分支都完成后会执行，往往配合 loop 去循环完成所有 future 并跳出
+                default => panic!(), // 没有任何 future 或者 stream 处于 ready 状态的，会执行这个分支
+            }
+        }
+        assert_eq!(total, 10);
     }
 }
