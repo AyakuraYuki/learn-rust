@@ -1,6 +1,7 @@
 use std::future::Future;
 use std::io;
 use std::pin::Pin;
+use std::rc::Rc;
 
 use futures::{FutureExt, join, pin_mut, select, Stream, StreamExt, try_join, TryFutureExt, TryStreamExt};
 use futures::executor::block_on;
@@ -249,6 +250,21 @@ async fn add_two_streams(
 
 // --------------------------------------------------------------------------------
 
+// 一种在 async 块中使用未实现 Send 的方法
+
+#[derive(Default)]
+struct NoSend(Rc<()>);
+
+async fn foo_with_no_send() {
+    {
+        // 如果把语句块去掉，就不会为 _x 触发 Drop，那么这个方法会因为 _x 影响到 .await 使得编译错误
+        let _x = NoSend::default();
+    }
+    foo().await;
+}
+
+// --------------------------------------------------------------------------------
+
 fn main() {
     let f = do_something();
     println!("main is busy");
@@ -314,6 +330,7 @@ mod test {
         let _fut = async {
             foo().await?;
             bar().await?;
+            // 在 async 语句块不能显式声明返回类型，但是可以使用 ::<(), String> 来增加类型注释告诉编译器返回的类型
             Ok::<(), String>(())
         };
     }
