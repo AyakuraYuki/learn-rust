@@ -16,7 +16,7 @@ fn main() {
     println!("usize: {} ~ {}", usize::MIN, usize::MAX);
     println!();
     // 下面这里给了基本的使用方法，还有更多使用方法可以参考格式化输出
-    println!("dec: {}", 1_145_141_919_810);
+    // println!("dec: {}", 1_145_141_919_810);
     println!("hex: {}", 0xff);
     println!("oct: {}", 0o77);
     println!("bin: {}", 0b11);
